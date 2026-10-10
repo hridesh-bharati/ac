@@ -1,11 +1,9 @@
-'use client';
 import { productsData } from '@/data/products';
-import { useParams } from 'next/navigation';
 import { ShieldCheck, Truck, RefreshCw } from 'lucide-react';
 
-export default function ProductDetailPage() {
-  const params = useParams();
-  const product = productsData.find((p) => p.id === params.id) || productsData[0];
+export default async function ProductDetailPage({ params }) {
+  const resolvedParams = await params;
+  const product = productsData.find((p) => p.id === resolvedParams.id) || productsData[0];
 
   return (
     <div className="container py-5">
@@ -22,12 +20,17 @@ export default function ProductDetailPage() {
           <p className="text-muted mb-4">{product.description}</p>
           
           <div className="d-flex gap-3 mb-4">
-            <button onClick={() => alert("Added to cart successfully!")} className="btn btn-primary px-4 py-3 rounded-pill fw-bold shadow-sm flex-grow-1">
-              Add To Cart 🛒
-            </button>
+            <form action={async () => {
+              'use server';
+              // Server action ya add to cart logic yahan aa sakti hai
+            }}>
+              <button type="submit" className="btn btn-primary px-4 py-3 rounded-pill fw-bold shadow-sm flex-grow-1">
+                Add To Cart 🛒
+              </button>
+            </form>
           </div>
 
-          <div className="border-top pt-4 text-muted small space-y-2">
+          <div className="border-top pt-4 text-muted small">
             <p className="d-flex align-items-center gap-2 mb-2"><Truck size={16} className="text-primary" /> Free Doorstep Delivery & Standard Installation</p>
             <p className="d-flex align-items-center gap-2 mb-2"><ShieldCheck size={16} className="text-success" /> 1 Year Comprehensive & 5 Years Compressor Warranty</p>
             <p className="d-flex align-items-center gap-2"><RefreshCw size={16} className="text-warning" /> 7 Days Replacement Policy</p>
@@ -36,4 +39,5 @@ export default function ProductDetailPage() {
       </div>
     </div>
   );
-}
+    }
+    

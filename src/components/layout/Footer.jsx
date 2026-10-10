@@ -3,6 +3,8 @@ import { Snowflake, Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="bg-dark text-white pt-5 pb-4 mt-5">
       <div className="container">
@@ -30,7 +32,7 @@ export default function Footer() {
         </div>
         <hr className="border-secondary opacity-25" />
         <div className="text-center text-white-50 small">
-          © {new Date().getFullYear()} CoolAir Pro. Built with Next.js & Bootstrap 5 (Frontend Only).
+          © {currentYear} CoolAir Pro. Built with Next.js & Bootstrap 5 (Frontend Only).
         </div>
       </div>
     </footer>

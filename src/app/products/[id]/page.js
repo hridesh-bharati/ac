@@ -1,7 +1,11 @@
-export const dynamic = 'force-dynamic';
-
 import { productsData } from '@/data/products';
 import { ShieldCheck, Truck, RefreshCw } from 'lucide-react';
+
+export function generateStaticParams() {
+  return productsData.map((product) => ({
+    id: product.id.toString(),
+  }));
+}
 
 export default async function ProductDetailPage({ params }) {
   const resolvedParams = await params;
@@ -22,9 +26,14 @@ export default async function ProductDetailPage({ params }) {
           <p className="text-muted mb-4">{product.description}</p>
           
           <div className="d-flex gap-3 mb-4">
-            <button onClick={() => alert("Added to cart successfully!")} className="btn btn-primary px-4 py-3 rounded-pill fw-bold shadow-sm flex-grow-1">
-              Add To Cart 🛒
-            </button>
+            <form action={async () => {
+              'use server';
+              // Add to cart action
+            }}>
+              <button type="submit" className="btn btn-primary px-4 py-3 rounded-pill fw-bold shadow-sm flex-grow-1">
+                Add To Cart 🛒
+              </button>
+            </form>
           </div>
 
           <div className="border-top pt-4 text-muted small">

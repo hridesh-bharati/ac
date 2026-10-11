@@ -18,15 +18,15 @@ function NavContent() {
     href === '/' ? pathname === '/' : pathname?.startsWith(href);
 
   return (
-    <div className="container-fluid px-3 px-lg-4 py-2 d-flex align-items-center justify-content-between" style={{ maxWidth: '1280px' }}>
+    <div className="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between" style={{ maxWidth: '1280px' }}>
       
       {/* Left Side: Logo */}
-      <Link href="/" className="d-flex align-items-center text-decoration-none logo-wrapper flex-shrink-0">
+      <Link href="/" className="d-flex align-items-center text-decoration-none logo-wrapper flex-shrink-0 py-2">
         <Image
           src="/images/logo.png"
           alt="Logo"
-          width={130}
-          height={40}
+          width={120}
+          height={38}
           className="object-fit-contain"
           priority
         />
@@ -47,14 +47,16 @@ function NavContent() {
 
       {/* Navigation Links */}
       <div className="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
-        <ul className="navbar-nav gap-lg-4 mb-0 fw-semibold text-uppercase align-lg-items-center">
+        <ul className="navbar-nav gap-lg-4 mb-0 fw-semibold text-uppercase align-lg-items-center" style={{ fontSize: '13px' }}>
           {LINKS.map(({ href, label }) => {
             const active = isActive(href);
             return (
               <li key={href} className="nav-item">
                 <Link 
                   href={href} 
-                  className={`nav-link px-3 px-lg-2 py-3 py-lg-1 text-decoration-none mobile-nav-link ${active ? 'text-primary fw-bold border-bottom border-primary border-2 bg-light bg-lg-transparent' : 'text-secondary'}`}
+                  className={`nav-link px-3 px-lg-2 py-2 py-lg-1 text-decoration-none mobile-nav-link ${
+                    active ? 'text-primary fw-bold border-bottom border-primary border-2 bg-light bg-lg-transparent' : 'text-secondary'
+                  }`}
                 >
                   {label}
                 </Link>
@@ -68,7 +70,7 @@ function NavContent() {
         @media (max-width: 991.98px) {
           .mobile-nav-link {
             border-bottom: 1px solid #f1f5f9;
-            font-size: 15px !important;
+            font-size: 14px !important;
             letter-spacing: 0.5px;
             transition: background-color 0.2s ease;
           }

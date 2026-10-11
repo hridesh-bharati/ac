@@ -37,11 +37,11 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
   };
 
   return (
-    <header className="app-header shadow-sm" style={{ zIndex: 1030, background: '#fff' }}>
+    <header className="app-header shadow-sm bg-white" style={{ zIndex: 1030 }}>
       <div className="container-fluid d-flex align-items-center justify-content-between px-3 px-lg-4 py-2 gap-3" style={{ height: '70px', maxWidth: '1280px' }}>
         
         {/* Left Side: Animated Search Box */}
-        <form onSubmit={handleSearch} className="d-flex align-items-center bg-light border rounded-pill px-3 flex-grow-1 shadow-sm search-container" style={{ maxWidth: '420px', height: '42px' }}>
+        <form onSubmit={handleSearch} className="d-flex align-items-center bg-light border rounded-pill px-3 flex-grow-1 shadow-sm search-container" style={{ maxWidth: '450px', height: '42px' }}>
           <input 
             type="text" 
             placeholder={SEARCH_PLACEHOLDERS[placeholderIndex]} 
@@ -62,7 +62,7 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
           <a 
             href={`tel:${phone}`} 
             className="btn rounded-pill px-3 d-flex align-items-center gap-2 text-white fw-bold text-decoration-none shadow-sm call-badge"
-            style={{ height: '42px', fontSize: '13px', background: 'linear-gradient(135deg, #0d6efd 0%, #0056b3 100%)' }}
+            style={{ height: '42px', fontSize: '13px', background: 'linear-gradient(135deg, #0b2545 0%, #134074 100%)' }}
           >
             <Phone size={16} />
             <span className="d-none d-md-inline">{phone}</span>
@@ -72,7 +72,7 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
           <Link 
             href="/cart" 
             className="btn rounded-circle d-flex align-items-center justify-content-center position-relative text-white shadow-sm cart-btn"
-            style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)' }}
+            style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #087cf0 0%, #0056b3 100%)' }}
             aria-label="Cart"
           >
             <ShoppingCart size={18} />
@@ -99,7 +99,7 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
 
       <style jsx>{`
         .app-header {
-          border-bottom: 2px solid #f1f5f9;
+          border-bottom: 1px solid #e2e8f0;
         }
         .call-badge, .cart-btn, .profile-btn {
           transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -112,8 +112,8 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .search-container:focus-within {
-          border-color: #0d6efd !important;
-          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+          border-color: #087cf0 !important;
+          box-shadow: 0 0 0 0.25rem rgba(8, 124, 240, 0.15) !important;
         }
         .search-input {
           transition: opacity 0.3s ease, transform 0.3s ease;

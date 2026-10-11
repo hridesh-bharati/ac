@@ -1,114 +1,141 @@
 'use client';
-import { Wrench, Settings, Wind, ArrowRight } from 'lucide-react';
+
 import Link from 'next/link';
+import {
+  Wind,
+  Wrench,
+  Settings,
+  WashingMachine,
+  ArrowRight,
+} from 'lucide-react';
+
+const SERVICES_LIST = [
+  {
+    title: 'AC Installation',
+    price: '₹1,500',
+    desc: 'Professional installation of split and window air conditioners with care.',
+    icon: Wind,
+  },
+  {
+    title: 'AC Repair & Service',
+    price: '₹600',
+    desc: 'Expert diagnosis and repair of AC issues with reliable service.',
+    icon: Wrench,
+  },
+  {
+    title: 'Gas Refilling',
+    price: '₹2,500',
+    desc: 'AC gas pressure checks and refilling to restore cooling performance.',
+    icon: Settings,
+  },
+  {
+    title: 'Washing Machine Repair',
+    price: '₹400',
+    desc: 'Repair service for common washing machine problems and faults.',
+    icon: WashingMachine,
+  },
+];
 
 export default function ServiceSection() {
-  const services = [
-    {
-      title: "AC Repair & Diagnostics",
-      desc: "Detailed inspection for cooling loss, strange noises, water dripping, or electrical fault fixes.",
-      price: "₹499",
-      icon: Wrench,
-      badge: "Popular",
-      badgeClass: "bg-primary text-white",
-      iconBg: "bg-primary bg-opacity-10 text-primary",
-    },
-    {
-      title: "Deep Jet Wet Servicing",
-      desc: "High-pressure deep cleaning of cooling coils, filters, and drain trays for fresh, germ-free air.",
-      price: "₹599",
-      icon: Settings,
-      badge: "Best Value",
-      badgeClass: "bg-success text-white",
-      iconBg: "bg-success bg-opacity-10 text-success",
-    },
-    {
-      title: "Gas Filling & Leakage Check",
-      desc: "Complete pressure testing, pinpoint leakage welding, and pure gas charging for optimal chilling.",
-      price: "₹1,499",
-      icon: Wind,
-      badge: "Essential",
-      badgeClass: "bg-warning text-dark",
-      iconBg: "bg-warning bg-opacity-10 text-warning",
-    }
-  ];
-
   return (
-    <section className="container py-5 my-3">
-      
-      {/* Section Header */}
-      <div className="text-center mx-auto mb-5" style={{ maxWidth: '600px' }}>
-        <span className="badge bg-primary bg-opacity-10 text-primary fw-bold text-uppercase px-3 py-1.5 rounded-pill mb-2" style={{ fontSize: '11px', letterSpacing: '1px' }}>
-          What We Do
-        </span>
-        <h2 className="fw-bold display-6 mb-3 text-dark">Our Popular Services</h2>
-        <p className="text-muted small">Comprehensive maintenance and repair solutions tailored for all window and split AC models, delivered right at your doorstep.</p>
-      </div>
+    <section className="py-5 bg-light">
+      <div className="container py-2">
+        
+        {/* Section Heading */}
+        <div className="text-center mb-5">
+          <h2 className="fw-bold text-dark display-6 mb-2">Our Services</h2>
+          <p className="text-muted small mx-auto" style={{ maxWidth: '450px' }}>
+            Comprehensive solutions for all your cooling and appliance needs
+          </p>
+        </div>
 
-      {/* Services Grid */}
-      <div className="row g-4">
-        {services.map((item, index) => {
-          const IconComponent = item.icon;
-          return (
-            <div className="col-md-4" key={index}>
-              <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white position-relative service-card d-flex flex-column">
+        {/* Services Grid (DRY with map) */}
+        <div className="row g-4">
+          {SERVICES_LIST.map(({ title, price, desc, icon: Icon }) => (
+            <div className="col-12 col-sm-6 col-lg-3" key={title}>
+              <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden service-card bg-white d-flex flex-column">
                 
-                {/* Top Badge & Icon */}
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <div className={`p-3 rounded-4 ${item.iconBg} d-flex align-items-center justify-content-center shadow-sm`} style={{ width: '52px', height: '52px' }}>
-                    <IconComponent size={24} strokeWidth={2.2} />
+                {/* Top Icon Header */}
+                <div className="py-4 text-center text-white" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)' }}>
+                  <div className="d-inline-flex align-items-center justify-content-center bg-white text-info rounded-circle shadow-sm" style={{ width: '50px', height: '50px' }}>
+                    <Icon size={22} strokeWidth={2.2} />
                   </div>
-                  <span className={`badge ${item.badgeClass} fw-bold px-2.5 py-1 rounded-pill`} style={{ fontSize: '10px' }}>
-                    {item.badge}
-                  </span>
                 </div>
 
-                {/* Title & Description */}
-                <h3 className="h5 fw-bold mb-2 text-dark">{item.title}</h3>
-                <p className="text-muted small mb-4" style={{ fontSize: '13px', lineHeight: '1.5' }}>
-                  {item.desc}
-                </p>
-
-                {/* Pricing & Action */}
-                <div className="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
-                  <div>
-                    <span className="d-block text-muted" style={{ fontSize: '11px' }}>Starts from</span>
-                    <span className="fw-bold fs-5 text-dark">{item.price}</span>
+                {/* Card Body */}
+                <div className="card-body p-4 d-flex flex-column">
+                  <h3 className="h6 fw-bold text-dark mb-1">{title}</h3>
+                  
+                  <div className="mb-2">
+                    <span className="fw-bold fs-5 text-info">{price}</span>
+                    <small className="text-muted ms-1" style={{ fontSize: '11px' }}>and up</small>
                   </div>
-                  <Link href="/services" className="btn btn-sm btn-dark rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-1 service-btn">
-                    Book <ArrowRight size={14} />
-                  </Link>
-                </div>
 
+                  <p className="text-muted small mb-4 flex-grow-1" style={{ fontSize: '12.5px', lineHeight: '1.6' }}>
+                    {desc}
+                  </p>
+
+                  {/* Yellow Book Service Button (Bootstrap Utility + Minimal Style) */}
+                  <div className="mt-auto">
+                    <Link
+                      href="/services"
+                      className="btn w-100 fw-bold rounded-pill py-2 text-dark shadow-sm book-btn"
+                      style={{ background: '#ffbc00', fontSize: '12.5px', border: 'none' }}
+                    >
+                      Book Service
+                    </Link>
+                  </div>
+
+                </div>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
+
+        {/* View All Services Button (Red Gradient Glassmorphism using Bootstrap + minimal inline) */}
+        <div className="text-center mt-5">
+          <Link
+            href="/services"
+            className="btn rounded-pill px-4 py-3 fw-bold text-white text-uppercase d-inline-flex align-items-center gap-2 shadow-lg view-all-red-btn"
+            style={{
+              fontSize: '13px',
+              letterSpacing: '0.5px',
+              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+            }}
+          >
+            <span>View All Services</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
       </div>
 
-      {/* Explore All CTA Button */}
-      <div className="text-center mt-5">
-        <Link href="/services" className="btn btn-outline-dark px-5 py-3 rounded-pill fw-bold text-uppercase small shadow-sm d-inline-flex align-items-center gap-2 hover-lift">
-          Explore All Services <ArrowRight size={16} />
-        </Link>
-      </div>
-
-      {/* Custom Styles */}
+      {/* Minimal Custom CSS for Hover Transitions Only */}
       <style jsx>{`
         .service-card {
           transition: transform 0.25s ease, box-shadow 0.25s ease;
-          border: 1px solid #f1f1f1 !important;
         }
         .service-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 0.75rem 2rem rgba(0,0,0,.08) !important;
+          transform: translateY(-5px);
+          box-shadow: 0 0.75rem 1.5rem rgba(14, 165, 233, 0.15) !important;
         }
-        .hover-lift {
-          transition: all 0.2s ease;
+        .book-btn {
+          transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .hover-lift:hover {
+        .book-btn:hover {
+          background-color: #f59e0b !important;
+          transform: scale(1.02);
+        }
+        .view-all-red-btn {
+          transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .view-all-red-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+          box-shadow: 0 1rem 2rem rgba(239, 68, 68, 0.4) !important;
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+          color: #fff;
         }
       `}</style>
     </section>

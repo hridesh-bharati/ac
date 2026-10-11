@@ -1,8 +1,9 @@
 'use client';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SlidersHorizontal, X, Star, ShoppingCart, Check, Filter } from 'lucide-react';
+import { X, Star, ShoppingCart, Filter, Snowflake } from 'lucide-react';
 
 export default function ProductsPage() {
   const catalogProducts = [
@@ -141,24 +142,28 @@ export default function ProductsPage() {
 
   return (
     <div className="bg-light min-vh-100 pb-5">
-      <div className="container-fluid px-lg-5 px-3 py-4">
+      <div className="container-fluid px-lg-5 px-3 py-4" style={{ maxWidth: '1400px' }}>
         
-        {/* Breadcrumb & Title */}
-        <div className="mb-4 bg-white p-4 rounded-4 shadow-sm">
-          <nav aria-label="breadcrumb" style={{ fontSize: '12px' }} className="text-muted mb-2">
-            <span>Home</span> <span className="mx-1">›</span> 
-            <span>Catalog</span> <span className="mx-1">›</span> 
-            <span className="text-dark fw-medium">Residential Air Conditioners</span>
+        {/* Breadcrumb & Colorful Vibrant Header Banner */}
+        <div className="mb-4 p-4 rounded-4 shadow-sm text-white position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0b2545 0%, #087cf0 100%)' }}>
+          <div className="position-absolute end-0 bottom-0 opacity-10 translate-middle-y me-4 d-none d-md-block">
+            <Snowflake size={120} />
+          </div>
+          <nav aria-label="breadcrumb" style={{ fontSize: '12px' }} className="text-white-50 mb-2">
+            <Link href="/" className="text-white-50 text-decoration-none">Home</Link> <span className="mx-1">›</span> 
+            <span className="text-white fw-semibold">Residential Air Conditioners</span>
           </nav>
-          <h1 className="fw-bold fs-3 text-dark mb-1">Residential Air Conditioners</h1>
-          <p className="text-muted small mb-0">Explore high-efficiency inverter and split AC models with doorstep installation.</p>
+          <h1 className="fw-bold fs-2 text-white mb-2">Residential Air Conditioners</h1>
+          <p className="text-white-50 small mb-0" style={{ maxWidth: '600px' }}>
+            Explore high-efficiency inverter and split AC models with professional doorstep installation and guaranteed best cooling performance.
+          </p>
         </div>
 
-        {/* Flipkart Style Header Bar (Sorting & Mobile Trigger) */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center bg-white p-3 rounded-4 mb-4 gap-3 shadow-sm">
+        {/* Header Toolbar Bar (Sorting & Mobile Trigger) */}
+        <div className="d-flex flex-wrap justify-content-between align-items-center bg-white p-3 rounded-4 mb-4 gap-3 shadow-sm border">
           
           <div className="d-flex flex-wrap align-items-center gap-2">
-            <span className="text-muted small fw-bold">Showing {sortedProducts.length} items</span>
+            <span className="text-secondary small fw-bold">Showing {sortedProducts.length} items</span>
             
             {(selectedBrands.length > 0 || selectedAreas.length > 0 || selectedBtus.length > 0) && (
               <>
@@ -185,7 +190,7 @@ export default function ProductsPage() {
           </div>
 
           <div className="d-flex align-items-center gap-3 ms-auto ms-md-0">
-            {/* Mobile Filter Sticky/Trigger Button */}
+            {/* Mobile Filter Trigger Button */}
             <button 
               className="btn btn-dark d-lg-none d-flex align-items-center gap-2 btn-sm rounded-pill px-4 py-2 fw-bold shadow-sm"
               type="button" 
@@ -216,9 +221,9 @@ export default function ProductsPage() {
           
           {/* Desktop Sidebar Filters */}
           <div className="col-lg-3 d-none d-lg-block">
-            <div className="bg-white p-4 rounded-4 shadow-sm sticky-top" style={{ top: '20px' }}>
+            <div className="bg-white p-4 rounded-4 shadow-sm border sticky-top" style={{ top: '90px' }}>
               <div className="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
-                <h5 className="fw-bold mb-0 fs-5 text-dark">Filters</h5>
+                <h5 className="fw-bold mb-0 fs-5 text-dark" style={{ color: '#0b2545' }}>Filters</h5>
                 {(selectedBrands.length > 0 || selectedAreas.length > 0 || selectedBtus.length > 0) && (
                   <button onClick={clearAllFilters} className="btn btn-link btn-sm text-decoration-none p-0 text-danger fw-bold" style={{ fontSize: '12px' }}>
                     Reset All
@@ -228,7 +233,7 @@ export default function ProductsPage() {
 
               {/* Manufacturers */}
               <div className="mb-4">
-                <h6 className="fw-bold mb-3 text-uppercase tracking-wider text-muted" style={{ fontSize: '11px' }}>Manufacturers</h6>
+                <h6 className="fw-bold mb-3 text-uppercase text-secondary" style={{ fontSize: '11px', letterSpacing: '0.8px' }}>Manufacturers</h6>
                 <div className="d-flex flex-column gap-2.5">
                   {['Cooper&Hunter', 'Daikin', 'LG', 'Samsung'].map(brand => (
                     <div className="form-check" key={brand}>
@@ -251,7 +256,7 @@ export default function ProductsPage() {
 
               {/* Room Area */}
               <div className="mb-4">
-                <h6 className="fw-bold mb-3 text-uppercase tracking-wider text-muted" style={{ fontSize: '11px' }}>Room Area</h6>
+                <h6 className="fw-bold mb-3 text-uppercase text-secondary" style={{ fontSize: '11px', letterSpacing: '0.8px' }}>Room Area</h6>
                 <div className="d-flex flex-column gap-2.5">
                   {['up to 30m2', '30-50m2'].map(area => (
                     <div className="form-check" key={area}>
@@ -274,7 +279,7 @@ export default function ProductsPage() {
 
               {/* Capacity BTU */}
               <div className="mb-2">
-                <h6 className="fw-bold mb-3 text-uppercase tracking-wider text-muted" style={{ fontSize: '11px' }}>Capacity, BTU</h6>
+                <h6 className="fw-bold mb-3 text-uppercase text-secondary" style={{ fontSize: '11px', letterSpacing: '0.8px' }}>Capacity, BTU</h6>
                 <div className="d-flex flex-column gap-2.5">
                   {['7', '9', '12', '18'].map(btu => (
                     <div className="form-check" key={btu}>
@@ -296,29 +301,33 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Product Grid (Responsive Cards) */}
+          {/* Product Grid (Responsive Cards with Full Width Images & White Fade) */}
           <div className="col-lg-9 col-12">
             <div className="row g-3">
               {sortedProducts.length > 0 ? (
                 sortedProducts.map((product) => (
                   <div className="col-xl-4 col-md-6 col-12" key={product.id}>
-                    <div className="card h-100 border-0 rounded-4 p-3 bg-white position-relative product-card shadow-sm d-flex flex-column">
+                    <div className="card h-100 border rounded-4 p-3 bg-white position-relative product-card shadow-sm d-flex flex-column">
                       
-                      {/* Product Image */}
-                      <Link href={`/products/${product.id}`} className="position-relative d-block mb-3 bg-light rounded-3 overflow-hidden" style={{ height: '200px' }}>
+                      {/* Full Width Product Image Container with Bottom White Fade */}
+                      <Link href={`/products/${product.id}`} className="position-relative d-block mb-3 bg-white rounded-3 overflow-hidden border m-0" style={{ height: '205px' }}>
                         <Image 
                           src={product.image} 
                           alt={product.name} 
                           fill 
-                          className="object-fit-cover" 
+                          className="object-fit-cover w-100 h-100" 
                         />
+                        <div 
+                          className="position-absolute bottom-0 start-0 w-100 pointer-event-none"
+                          style={{ height: '40px', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.92) 100%)' }}
+                        ></div>
                       </Link>
 
                       {/* Brand Tag */}
-                      <span className="text-muted fw-semibold mb-1" style={{ fontSize: '11px' }}>{product.brand}</span>
+                      <span className="text-muted fw-semibold mb-1 text-uppercase" style={{ fontSize: '10.5px', letterSpacing: '0.5px' }}>{product.brand}</span>
 
                       {/* Product Name */}
-                      <Link href={`/products/${product.id}`} className="text-decoration-none text-dark mb-2 fw-bold d-block" style={{ fontSize: '14px', lineHeight: '1.4', height: '40px', overflow: 'hidden' }}>
+                      <Link href={`/products/${product.id}`} className="text-decoration-none text-dark mb-2 fw-bold d-block" style={{ fontSize: '13.5px', lineHeight: '1.4', height: '38px', overflow: 'hidden' }}>
                         {product.name}
                       </Link>
 
@@ -330,16 +339,16 @@ export default function ProductsPage() {
                         <span>({product.reviews} reviews)</span>
                       </div>
 
-                      {/* Price & Buy Button */}
+                      {/* Price & Action Button */}
                       <div className="mt-auto d-flex align-items-center justify-content-between pt-3 border-top">
-                        <span className="fw-bold fs-5 text-dark">₹{product.price.toLocaleString()}</span>
+                        <span className="fw-bold fs-5 text-dark" style={{ color: '#0b2545' }}>₹{product.price.toLocaleString()}</span>
                         <button 
                           onClick={() => alert(`Added ${product.name} to cart!`)}
-                          className="btn btn-warning text-white fw-bold p-2 rounded-3 d-flex align-items-center justify-content-center shadow-sm"
-                          style={{ background: '#f97316', borderColor: '#f97316', width: '40px', height: '40px' }}
+                          className="btn text-white fw-bold p-2 rounded-circle d-flex align-items-center justify-content-center shadow-sm cart-action-btn"
+                          style={{ background: 'linear-gradient(135deg, #087cf0 0%, #0056b3 100%)', width: '38px', height: '38px' }}
                           title="Add to Cart"
                         >
-                          <ShoppingCart size={18} />
+                          <ShoppingCart size={16} />
                         </button>
                       </div>
 
@@ -347,7 +356,7 @@ export default function ProductsPage() {
                   </div>
                 ))
               ) : (
-                <div className="col-12 text-center py-5 bg-white rounded-4 shadow-sm">
+                <div className="col-12 text-center py-5 bg-white rounded-4 shadow-sm border">
                   <p className="text-muted mb-0">No products found matching your filter criteria.</p>
                 </div>
               )}
@@ -358,7 +367,7 @@ export default function ProductsPage() {
 
       </div>
 
-      {/* Flipkart-Style Bottom Offcanvas Filter for Mobile */}
+      {/* Mobile Offcanvas Filter */}
       <div 
         className="offcanvas offcanvas-bottom rounded-top-4 shadow-lg d-lg-none" 
         tabIndex="-1" 
@@ -366,12 +375,11 @@ export default function ProductsPage() {
         style={{ height: '80vh' }}
       >
         <div className="offcanvas-header border-bottom px-4 py-3">
-          <h5 className="offcanvas-title fw-bold fs-5">Filter Products</h5>
+          <h5 className="offcanvas-title fw-bold fs-5 text-dark">Filter Products</h5>
           <button type="button" className="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body px-4 py-4 overflow-y-auto">
           
-          {/* Mobile Manufacturers */}
           <div className="mb-4">
             <h6 className="fw-bold mb-3 text-secondary text-uppercase" style={{ fontSize: '12px' }}>Manufacturers</h6>
             <div className="d-flex flex-column gap-3">
@@ -394,7 +402,6 @@ export default function ProductsPage() {
 
           <hr className="text-muted opacity-25" />
 
-          {/* Mobile BTU */}
           <div className="mb-4">
             <h6 className="fw-bold mb-3 text-secondary text-uppercase" style={{ fontSize: '12px' }}>Capacity, BTU</h6>
             <div className="d-flex flex-column gap-3">
@@ -415,7 +422,6 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Action Footer inside Offcanvas */}
           <div className="d-flex gap-2 mt-5">
             <button 
               type="button" 
@@ -426,8 +432,8 @@ export default function ProductsPage() {
             </button>
             <button 
               type="button" 
-              className="btn btn-warning text-white fw-bold w-50 py-3 rounded-pill shadow-sm"
-              style={{ background: '#f97316', borderColor: '#f97316' }}
+              className="btn text-white fw-bold w-50 py-3 rounded-pill shadow-sm"
+              style={{ background: '#087cf0', borderColor: '#087cf0' }}
               data-bs-dismiss="offcanvas"
             >
               Apply ({filteredProducts.length})
@@ -439,11 +445,20 @@ export default function ProductsPage() {
 
       <style jsx global>{`
         .product-card {
-          transition: all 0.25s ease;
+          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+          border-color: #e2e8f0 !important;
         }
         .product-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08) !important;
+          box-shadow: 0 10px 25px rgba(8, 124, 240, 0.12) !important;
+          border-color: #087cf0 !important;
+        }
+        .cart-action-btn {
+          transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .cart-action-btn:hover {
+          transform: scale(1.08);
+          opacity: 0.95;
         }
       `}</style>
     </div>

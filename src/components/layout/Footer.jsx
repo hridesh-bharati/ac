@@ -1,216 +1,209 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, ShieldCheck } from 'lucide-react';
+import Image from 'next/image';
+import { Mail, Phone, Globe } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Footer() {
-  const currentYear = 2026;
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
-    alert("Thank you for subscribing to our newsletter!");
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail('');
+      setTimeout(() => setSubscribed(false), 4000);
+    }
   };
 
   return (
-    <footer className="bg-white text-dark pt-4 pb-3 mt-auto border-top">
-      <div className="container">
-
-        {/* ===== TOP NEWSLETTER BAR ===== */}
-        <div className="newsletter-bar d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 py-3 px-3 px-md-4 mb-5">
-          <div className="d-flex align-items-center gap-3">
-            <div className="newsletter-icon d-flex align-items-center justify-content-center">
-              <Mail size={20} className="text-white" />
+    <footer className="position-relative pt-5 bg-light overflow-hidden" style={{ marginTop: '80px' }}>
+      
+      <div className="container" style={{ maxWidth: '1280px' }}>
+        
+        {/* Floating Newsletter Card */}
+        <div 
+          className="rounded-4 p-4 p-md-5 text-white position-relative shadow-lg newsletter-banner"
+          style={{ 
+            background: 'linear-gradient(135deg, #0b2545 0%, #087cf0 100%)',
+            zIndex: 2,
+            marginBottom: '-60px'
+          }}
+        >
+          <div className="row align-items-center g-4">
+            
+            {/* Left: Icon Space */}
+            <div className="col-lg-5 text-center text-lg-start">
+              <div className="d-inline-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle p-4 shadow-sm" style={{ width: '100px', height: '100px' }}>
+                <Mail size={48} className="text-white" />
+              </div>
             </div>
-            <div>
-              <h6 className="fw-bold mb-0 text-uppercase" style={{ fontSize: '13px', letterSpacing: '0.5px' }}>
-                Subscribe to Our Newsletter
-              </h6>
-              <p className="text-muted mb-0" style={{ fontSize: '11px' }}>
-                Don't miss the Super Attractive Promotion
+
+            {/* Right: Newsletter Text & Form */}
+            <div className="col-lg-7">
+              <h3 className="fw-bold fs-3 mb-2 text-white">Subscribe to our newsletter to get updates to our latest collections</h3>
+              <p className="text-white-50 small mb-4">Get 20% off on your first order just by subscribing to our newsletter.</p>
+              
+              <form onSubmit={handleSubscribe} className="bg-white p-2 rounded-pill shadow-sm d-flex align-items-center mb-2" style={{ maxWidth: '480px' }}>
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="form-control border-0 shadow-none bg-transparent px-3 text-dark"
+                  style={{ fontSize: '13px' }}
+                />
+                <button 
+                  type="submit" 
+                  className="btn rounded-pill px-4 py-2 fw-bold text-dark flex-shrink-0"
+                  style={{ background: '#ffbc00', fontSize: '13px' }}
+                >
+                  {subscribed ? 'Subscribed ✓' : 'Subscribe'}
+                </button>
+              </form>
+
+              <div className="text-white-50" style={{ fontSize: '11px' }}>
+                {subscribed ? (
+                  <span className="text-warning fw-bold">Thank you for subscribing! Check your inbox for the coupon.</span>
+                ) : (
+                  <span>You will be able to unsubscribe at any time. Read our <Link href="/privacy" className="text-white text-decoration-underline">privacy policy</Link></span>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Main Footer Links Section */}
+        <div className="bg-white rounded-4 pt-5 pb-4 px-4 px-md-5 border shadow-sm main-footer-box">
+          
+          <div className="row g-4 pt-5">
+            
+            {/* Column 1: Logo & About */}
+            <div className="col-lg-4 col-md-6">
+              <Link href="/" className="d-flex align-items-center text-decoration-none mb-3">
+                <Image src="/images/logo.png" alt="Logo" width={130} height={40} className="object-fit-contain" />
+              </Link>
+              <p className="text-secondary small mb-4" style={{ fontSize: '12.5px', lineHeight: '1.7', maxWidth: '300px' }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis.
               </p>
+              <div className="d-flex align-items-center gap-3 text-dark">
+                {/* Facebook SVG */}
+                <a href="#" className="social-icon-btn" aria-label="Facebook">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                {/* Twitter SVG */}
+                <a href="#" className="social-icon-btn" aria-label="Twitter">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                </a>
+                {/* Instagram SVG */}
+                <a href="#" className="social-icon-btn" aria-label="Instagram">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                {/* LinkedIn SVG */}
+                <a href="#" className="social-icon-btn" aria-label="LinkedIn">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="#" className="social-icon-btn" aria-label="Website"><Globe size={16} /></a>
+              </div>
+            </div>
+
+            {/* Column 2: Company */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <h5 className="fw-bold fs-6 text-dark mb-3">Company</h5>
+              <ul className="list-unstyled d-flex flex-column gap-2 small" style={{ fontSize: '13px' }}>
+                <li><Link href="/about" className="text-secondary text-decoration-none footer-link">About Us</Link></li>
+                <li><Link href="/services" className="text-secondary text-decoration-none footer-link">Services</Link></li>
+                <li><Link href="/community" className="text-secondary text-decoration-none footer-link">Community</Link></li>
+                <li><Link href="/testimonials" className="text-secondary text-decoration-none footer-link">Testimonial</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Support */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <h5 className="fw-bold fs-6 text-dark mb-3">Support</h5>
+              <ul className="list-unstyled d-flex flex-column gap-2 small" style={{ fontSize: '13px' }}>
+                <li><Link href="/help" className="text-secondary text-decoration-none footer-link">Help Center</Link></li>
+                <li><Link href="/tweet" className="text-secondary text-decoration-none footer-link">Tweet @ Us</Link></li>
+                <li><Link href="/webians" className="text-secondary text-decoration-none footer-link">Webians</Link></li>
+                <li><Link href="/feedback" className="text-secondary text-decoration-none footer-link">Feedback</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 4: Links */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <h5 className="fw-bold fs-6 text-dark mb-3">Links</h5>
+              <ul className="list-unstyled d-flex flex-column gap-2 small" style={{ fontSize: '13px' }}>
+                <li><Link href="/courses" className="text-secondary text-decoration-none footer-link">Courses</Link></li>
+                <li><Link href="/teacher" className="text-secondary text-decoration-none footer-link">Become Teacher</Link></li>
+                <li><Link href="/services" className="text-secondary text-decoration-none footer-link">Service</Link></li>
+                <li><Link href="/all-in-one" className="text-secondary text-decoration-none footer-link">All in One</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 5: Contact Us */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <h5 className="fw-bold fs-6 text-dark mb-3">Contact Us</h5>
+              <ul className="list-unstyled d-flex flex-column gap-3 small" style={{ fontSize: '13px' }}>
+                <li className="d-flex align-items-center gap-2 text-secondary">
+                  <Phone size={15} className="text-primary flex-shrink-0" />
+                  <span>(91) 98765 4321 54</span>
+                </li>
+                <li className="d-flex align-items-center gap-2 text-secondary">
+                  <Mail size={15} className="text-primary flex-shrink-0" />
+                  <span>support@mail.com</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
+          <hr className="text-muted opacity-25 my-4" />
+
+          {/* Bottom Copyright & Legal Links */}
+          <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 py-2 text-secondary" style={{ fontSize: '12px' }}>
+            <div>
+              <span>© Copyright by CodeUI. All rights reserved.</span>
+            </div>
+            <div className="d-flex gap-4">
+              <Link href="/privacy" className="text-secondary text-decoration-none footer-link">Privacy Policy</Link>
+              <Link href="/terms" className="text-secondary text-decoration-none footer-link">Terms of Use</Link>
+              <Link href="/legal" className="text-secondary text-decoration-none footer-link">Legal</Link>
+              <Link href="/sitemap" className="text-secondary text-decoration-none footer-link">Site Map</Link>
             </div>
           </div>
 
-          <form onSubmit={handleSubscribe} className="d-flex gap-2 newsletter-form">
-            <input
-              type="email"
-              required
-              placeholder="Your email address"
-              className="form-control shadow-none newsletter-input"
-            />
-            <button type="submit" className="btn btn-dark fw-bold px-4 text-uppercase newsletter-btn">
-              Subscribe
-            </button>
-          </form>
-        </div>
-
-        {/* ===== MAIN FOOTER LINKS ===== */}
-        <div className="row g-4 mb-5">
-
-          {/* Column 1: Logo */}
-          <div className="col-lg-3 col-md-6">
-            <Link href="/" className="d-inline-block">
-              <Image
-                src="/images/logo.png"
-                alt="Logo"
-                width={110}
-                height={34}
-                className="object-fit-contain"
-              />
-            </Link>
-          </div>
-
-          {/* Column 2: Products & Services */}
-          <div className="col-lg-3 col-md-6">
-            <h6 className="footer-heading">Products & Services</h6>
-            <ul className="footer-list">
-              <li><Link href="/products">Residential Air Conditioners</Link></li>
-              <li><Link href="/products">Commercial Air Conditioner</Link></li>
-              <li><Link href="/services">Service Package</Link></li>
-              <li><Link href="/services">Warranty Service</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Customer Support */}
-          <div className="col-lg-3 col-md-6">
-            <h6 className="footer-heading">Customer Support</h6>
-            <ul className="footer-list">
-              <li>Customer Care Hotline: <strong>1900 0000</strong></li>
-              <li>Customer Care Email: support@coolairpro.com</li>
-              <li><Link href="/contact">Ordering Guide</Link></li>
-              <li><Link href="/contact">FAQ</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Policy + Payment */}
-          <div className="col-lg-3 col-md-6">
-            <h6 className="footer-heading">Policy</h6>
-            <ul className="footer-list mb-4">
-              <li><Link href="/contact">Return Policy</Link></li>
-              <li><Link href="/contact">Installment</Link></li>
-              <li><Link href="/contact">Transportation and Installation</Link></li>
-            </ul>
-
-            <h6 className="footer-heading">Payment Methods</h6>
-            <div className="d-flex flex-wrap gap-2">
-              <span className="payment-badge">VISA</span>
-              <span className="payment-badge">Mastercard</span>
-              <span className="payment-badge">JCB</span>
-              <span className="payment-badge">COD</span>
-            </div>
-          </div>
-
-        </div>
-
-        <hr className="my-4 opacity-25" />
-
-        {/* ===== BOTTOM COPYRIGHT BAR ===== */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 small text-muted">
-          <div style={{ fontSize: '11px', lineHeight: '1.7' }}>
-            <p className="mb-1">
-              <span className="fw-semibold text-dark">LICENSE NUMBER:</span> EXXX-19215076
-            </p>
-            <p className="mb-0">
-              <span className="fw-semibold text-dark">Address:</span> Sector 18, Noida, Uttar Pradesh, India
-            </p>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
-            <div className="d-flex align-items-center gap-1 text-dark" style={{ fontSize: '11px' }}>
-              <ShieldCheck size={14} />
-              <span className="fw-bold text-uppercase" style={{ letterSpacing: '0.5px' }}>
-                Verified
-              </span>
-            </div>
-            <p className="mb-0" style={{ fontSize: '11px' }}>
-              Copyright © CoolAir Pro {currentYear}.
-            </p>
-          </div>
         </div>
 
       </div>
 
       <style jsx>{`
-        /* ===== NEWSLETTER BAR ===== */
-        .newsletter-bar {
-          background: #f8f8f8;
-          border-radius: 12px;
-          border: 1px solid #eee;
+        .main-footer-box {
+          padding-top: 80px !important;
         }
-        .newsletter-icon {
-          width: 42px;
-          height: 42px;
-          border-radius: 10px;
-          background: #000;
-          flex-shrink: 0;
+        .footer-link {
+          transition: color 0.2s ease;
         }
-        .newsletter-form {
-          flex: 1;
-          max-width: 480px;
+        .footer-link:hover {
+          color: #087cf0 !important;
         }
-        .newsletter-input {
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 10px 14px;
-          font-size: 13px;
-          background: #fff;
-        }
-        .newsletter-input:focus {
-          border-color: #000;
-          box-shadow: none;
-        }
-        .newsletter-btn {
-          border-radius: 8px;
-          font-size: 11px;
-          letter-spacing: 0.5px;
-          padding: 10px 24px;
-        }
-
-        /* ===== FOOTER HEADINGS ===== */
-        .footer-heading {
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.8px;
-          color: #000;
-          margin-bottom: 16px;
-        }
-
-        /* ===== FOOTER LIST ===== */
-        .footer-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        .footer-list li {
-          font-size: 12px;
-          color: #666;
-          margin-bottom: 10px;
-          line-height: 1.5;
-        }
-        .footer-list li a {
-          color: #666;
-          text-decoration: none;
-          transition: color 0.2s;
-        }
-        .footer-list li a:hover {
-          color: #000;
-        }
-
-        /* ===== PAYMENT BADGES ===== */
-        .payment-badge {
+        .social-icon-btn {
           display: inline-flex;
+          width: 34px;
+          height: 34px;
           align-items: center;
           justify-content: center;
-          background: #fff;
-          border: 1px solid #e0e0e0;
-          border-radius: 6px;
-          padding: 5px 12px;
-          font-size: 10px;
-          font-weight: 700;
-          color: #333;
-          letter-spacing: 0.3px;
+          border-radius: 50%;
+          background: #f1f5f9;
+          color: #334155;
+          transition: all 0.2s ease;
+        }
+        .social-icon-btn:hover {
+          background: #087cf0;
+          color: #fff;
+          transform: translateY(-2px);
         }
       `}</style>
     </footer>

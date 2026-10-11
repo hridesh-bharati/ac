@@ -1,39 +1,54 @@
 'use client';
-import { Phone, ShoppingCart, User } from 'lucide-react';
+import { Search, Phone, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
-  return (
-    <header className="sticky-top app-header shadow-sm">
-      <div className="container-fluid d-flex align-items-center justify-content-between px-3 py-2" style={{ height: '64px', maxWidth: '1280px' }}>
-        
-        {/* Logo with smooth glow wrapper */}
-        <Link href="/" className="d-flex align-items-center text-decoration-none logo-wrapper">
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={120}
-            height={36}
-            className="object-fit-contain"
-            priority
-          />
-        </Link>
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
-        {/* Right Actions with vibrant colored buttons */}
-        <div className="d-flex align-items-center gap-2">
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) {
+      router.push(`/products?q=${encodeURIComponent(q)}`);
+    }
+  };
+
+  return (
+    <header className="sticky-top app-header shadow-sm" style={{ zIndex: 1030 }}>
+      <div className="container-fluid d-flex align-items-center justify-content-between px-3 px-lg-4 py-2 gap-3" style={{ height: '70px', maxWidth: '1280px' }}>
+        
+        {/* Left Side: Search Box */}
+        <form onSubmit={handleSearch} className="d-flex align-items-center bg-light border rounded-pill px-3 py-1.5 flex-grow-1 shadow-sm" style={{ maxWidth: '400px' }}>
+          <input 
+            type="text" 
+            placeholder="Search product or service..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="form-control border-0 shadow-none bg-transparent p-0 text-dark"
+            style={{ fontSize: '13px' }}
+          />
+          <button type="submit" className="btn p-0 text-muted border-0 bg-transparent ms-2" aria-label="Search">
+            <Search size={16} />
+          </button>
+        </form>
+
+        {/* Right Actions: Call, Cart, Profile */}
+        <div className="d-flex align-items-center gap-2 flex-shrink-0">
           
-          {/* Call Button - Vibrant Gradient */}
+          {/* Call Button */}
           <a 
             href={`tel:${phone}`} 
             className="btn rounded-pill px-3 py-1.5 d-flex align-items-center gap-2 text-white fw-bold text-decoration-none shadow-sm call-badge"
             style={{ fontSize: '13px', background: 'linear-gradient(135deg, #0d6efd 0%, #0056b3 100%)' }}
           >
-            <Phone size={15} className="animate-pulse" />
+            <Phone size={15} />
             <span className="d-none d-md-inline">{phone}</span>
           </a>
 
-          {/* Cart Icon - Gradient Pill */}
+          {/* Cart Icon */}
           <Link 
             href="/cart" 
             className="btn rounded-circle p-2 d-flex align-items-center justify-content-center position-relative text-white shadow-sm cart-btn"

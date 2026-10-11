@@ -3,79 +3,80 @@ import { Phone, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function TopBar() {
+export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
   return (
-    <div className="app-topbar bg-white border-bottom sticky-top">
-      <div className="d-flex justify-content-between align-items-center px-3 py-2">
+    <header className="sticky-top app-header shadow-sm">
+      <div className="container-fluid d-flex align-items-center justify-content-between px-3 py-2" style={{ height: '64px', maxWidth: '1280px' }}>
         
-        {/* Logo */}
-        <Link href="/" className="d-flex align-items-center text-decoration-none">
-          <Image 
-            src="/images/logo.png" 
-            alt="Logo" 
-            width={110} 
-            height={32} 
-            className="object-fit-contain" 
+        {/* Logo with smooth glow wrapper */}
+        <Link href="/" className="d-flex align-items-center text-decoration-none logo-wrapper">
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={120}
+            height={36}
+            className="object-fit-contain"
             priority
           />
         </Link>
 
-        {/* Right Icons */}
+        {/* Right Actions with vibrant colored buttons */}
         <div className="d-flex align-items-center gap-2">
-          <a href="tel:9876543210" className="icon-btn" title="Call Us">
-            <Phone size={18} />
+          
+          {/* Call Button - Vibrant Gradient */}
+          <a 
+            href={`tel:${phone}`} 
+            className="btn rounded-pill px-3 py-1.5 d-flex align-items-center gap-2 text-white fw-bold text-decoration-none shadow-sm call-badge"
+            style={{ fontSize: '13px', background: 'linear-gradient(135deg, #0d6efd 0%, #0056b3 100%)' }}
+          >
+            <Phone size={15} className="animate-pulse" />
+            <span className="d-none d-md-inline">{phone}</span>
           </a>
-          <Link href="/cart" className="icon-btn position-relative" title="Cart">
+
+          {/* Cart Icon - Gradient Pill */}
+          <Link 
+            href="/cart" 
+            className="btn rounded-circle p-2 d-flex align-items-center justify-content-center position-relative text-white shadow-sm cart-btn"
+            style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)' }}
+            aria-label="Cart"
+          >
             <ShoppingCart size={18} />
-            <span className="badge-dot">0</span>
+            {cartCount > 0 && (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white fw-bold" style={{ fontSize: '10px' }}>
+                {cartCount > 99 ? '99+' : cartCount}
+              </span>
+            )}
           </Link>
-          <Link href="/contact" className="icon-btn" title="Account">
+
+          {/* Profile Icon */}
+          <Link 
+            href="/contact" 
+            className="btn rounded-circle p-2 d-flex align-items-center justify-content-center text-white shadow-sm profile-btn"
+            style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)' }}
+            aria-label="Account"
+          >
             <User size={18} />
           </Link>
+
         </div>
+
       </div>
 
       <style jsx>{`
-        .app-topbar {
-          z-index: 1030;
-          backdrop-filter: blur(10px);
-          background: rgba(255, 255, 255, 0.95) !important;
+        .app-header {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-bottom: 2px solid #f1f5f9;
         }
-        .icon-btn {
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #111;
-          background: #f4f4f5;
-          text-decoration: none;
-          transition: all 0.2s ease;
-          position: relative;
+        .call-badge, .cart-btn, .profile-btn {
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .icon-btn:hover {
-          background: #e4e4e7;
-        }
-        .icon-btn:active {
-          transform: scale(0.92);
-        }
-        .badge-dot {
-          position: absolute;
-          top: -2px;
-          right: -2px;
-          background: #000;
-          color: #fff;
-          font-size: 9px;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 700;
+        .call-badge:hover, .cart-btn:hover, .profile-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         }
       `}</style>
-    </div>
+    </header>
   );
 }

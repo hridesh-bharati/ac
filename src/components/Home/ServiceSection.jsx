@@ -12,7 +12,6 @@ export default function ServiceSection() {
       badge: "Popular",
       badgeClass: "bg-primary text-white",
       iconBg: "bg-primary bg-opacity-10 text-primary",
-      borderColor: "border-primary border-opacity-25"
     },
     {
       title: "Deep Jet Wet Servicing",
@@ -22,7 +21,6 @@ export default function ServiceSection() {
       badge: "Best Value",
       badgeClass: "bg-success text-white",
       iconBg: "bg-success bg-opacity-10 text-success",
-      borderColor: "border-success border-opacity-25"
     },
     {
       title: "Gas Filling & Leakage Check",
@@ -32,15 +30,14 @@ export default function ServiceSection() {
       badge: "Essential",
       badgeClass: "bg-warning text-dark",
       iconBg: "bg-warning bg-opacity-10 text-warning",
-      borderColor: "border-warning border-opacity-25"
     }
   ];
 
   return (
-    <section className="container py-5 my-4">
+    <section className="container py-5 my-3">
       
       {/* Section Header */}
-      <div className="text-center mx-auto mb-5" style={{ maxWidth: '650px' }}>
+      <div className="text-center mx-auto mb-5" style={{ maxWidth: '600px' }}>
         <span className="badge bg-primary bg-opacity-10 text-primary fw-bold text-uppercase px-3 py-1.5 rounded-pill mb-2" style={{ fontSize: '11px', letterSpacing: '1px' }}>
           What We Do
         </span>
@@ -54,12 +51,12 @@ export default function ServiceSection() {
           const IconComponent = item.icon;
           return (
             <div className="col-md-4" key={index}>
-              <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white position-relative service-card transition-all">
+              <div className="card h-100 border-0 shadow-sm p-4 rounded-4 bg-white position-relative service-card d-flex flex-column">
                 
                 {/* Top Badge & Icon */}
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div className={`p-3 rounded-4 ${item.iconBg} d-flex align-items-center justify-content-center shadow-sm`} style={{ width: '56px', height: '56px' }}>
-                    <IconComponent size={26} strokeWidth={2.2} />
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className={`p-3 rounded-4 ${item.iconBg} d-flex align-items-center justify-content-center shadow-sm`} style={{ width: '52px', height: '52px' }}>
+                    <IconComponent size={24} strokeWidth={2.2} />
                   </div>
                   <span className={`badge ${item.badgeClass} fw-bold px-2.5 py-1 rounded-pill`} style={{ fontSize: '10px' }}>
                     {item.badge}
@@ -78,7 +75,7 @@ export default function ServiceSection() {
                     <span className="d-block text-muted" style={{ fontSize: '11px' }}>Starts from</span>
                     <span className="fw-bold fs-5 text-dark">{item.price}</span>
                   </div>
-                  <Link href="/services" className="btn btn-sm btn-light rounded-pill px-3 py-2 fw-bold text-dark d-flex align-items-center gap-1 service-btn">
+                  <Link href="/services" className="btn btn-sm btn-dark rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-1 service-btn">
                     Book <ArrowRight size={14} />
                   </Link>
                 </div>
@@ -91,27 +88,20 @@ export default function ServiceSection() {
 
       {/* Explore All CTA Button */}
       <div className="text-center mt-5">
-        <Link href="/services" className="btn btn-dark px-5 py-3 rounded-pill fw-bold text-uppercase small shadow-sm d-inline-flex align-items-center gap-2 hover-lift">
+        <Link href="/services" className="btn btn-outline-dark px-5 py-3 rounded-pill fw-bold text-uppercase small shadow-sm d-inline-flex align-items-center gap-2 hover-lift">
           Explore All Services <ArrowRight size={16} />
         </Link>
       </div>
 
-      {/* Custom Hover & Transition Effects */}
+      {/* Custom Styles */}
       <style jsx>{`
         .service-card {
           transition: transform 0.25s ease, box-shadow 0.25s ease;
           border: 1px solid #f1f1f1 !important;
         }
         .service-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 1rem 3rem rgba(0,0,0,.08) !important;
-        }
-        .service-btn {
-          transition: background 0.2s ease, color 0.2s ease;
-        }
-        .service-btn:hover {
-          background: #0d6efd !important;
-          color: #fff !important;
+          transform: translateY(-4px);
+          box-shadow: 0 0.75rem 2rem rgba(0,0,0,.08) !important;
         }
         .hover-lift {
           transition: all 0.2s ease;

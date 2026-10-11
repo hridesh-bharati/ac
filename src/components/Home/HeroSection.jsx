@@ -44,16 +44,15 @@ export default function HeroSection() {
                 <span className="text-primary">a Better Tomorrow</span>
               </h1>
               
-              {/* Paragraph */}
-              <p 
-                className="hero-desc text-secondary mb-4" 
-                style={{ maxWidth: '500px' }}
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-delay="200"
-              >
-                Experience powerful cooling, top-tier energy efficiency, and modern designs tailored for your home and office spaces.
-              </p>
+             <p 
+  className="hero-desc text-secondary mb-4" 
+  style={{ maxWidth: '500px' }}
+  data-aos="fade-up"
+  data-aos-duration="1000"
+  data-aos-delay="200"
+>
+  Experience powerful cooling and top-tier energy efficiency for your home and office.
+</p>
 
               {/* Action Button */}
               <div

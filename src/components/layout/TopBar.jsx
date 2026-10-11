@@ -2,11 +2,31 @@
 import { Search, Phone, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const SEARCH_PLACEHOLDERS = [
+  "Search 'Split AC'...",
+  "Search 'Window AC'...",
+  "Search 'AC Repair Service'...",
+  "Search 'Installation'..."
+];
 
 export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [fadeAnim, setFadeAnim] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeAnim(false);
+      setTimeout(() => {
+        setPlaceholderIndex((prev) => (prev + 1) % SEARCH_PLACEHOLDERS.length);
+        setFadeAnim(true);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -17,41 +37,41 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
   };
 
   return (
-    <header className="sticky-top app-header shadow-sm" style={{ zIndex: 1030 }}>
+    <header className="app-header shadow-sm" style={{ zIndex: 1030, background: '#fff' }}>
       <div className="container-fluid d-flex align-items-center justify-content-between px-3 px-lg-4 py-2 gap-3" style={{ height: '70px', maxWidth: '1280px' }}>
         
-        {/* Left Side: Search Box */}
-        <form onSubmit={handleSearch} className="d-flex align-items-center bg-light border rounded-pill px-3 py-1.5 flex-grow-1 shadow-sm" style={{ maxWidth: '400px' }}>
+        {/* Left Side: Animated Search Box */}
+        <form onSubmit={handleSearch} className="d-flex align-items-center bg-light border rounded-pill px-3 flex-grow-1 shadow-sm search-container" style={{ maxWidth: '420px', height: '42px' }}>
           <input 
             type="text" 
-            placeholder="Search product or service..." 
+            placeholder={SEARCH_PLACEHOLDERS[placeholderIndex]} 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="form-control border-0 shadow-none bg-transparent p-0 text-dark"
+            className={`form-control border-0 shadow-none bg-transparent p-0 text-dark search-input ${fadeAnim ? 'fade-in' : 'fade-out'}`}
             style={{ fontSize: '13px' }}
           />
-          <button type="submit" className="btn p-0 text-muted border-0 bg-transparent ms-2" aria-label="Search">
+          <button type="submit" className="btn p-0 text-muted border-0 bg-transparent ms-2 d-flex align-items-center justify-content-center" aria-label="Search" style={{ width: '24px', height: '24px' }}>
             <Search size={16} />
           </button>
         </form>
 
-        {/* Right Actions: Call, Cart, Profile */}
+        {/* Right Actions: Uniform Size Buttons */}
         <div className="d-flex align-items-center gap-2 flex-shrink-0">
           
           {/* Call Button */}
           <a 
             href={`tel:${phone}`} 
-            className="btn rounded-pill px-3 py-1.5 d-flex align-items-center gap-2 text-white fw-bold text-decoration-none shadow-sm call-badge"
-            style={{ fontSize: '13px', background: 'linear-gradient(135deg, #0d6efd 0%, #0056b3 100%)' }}
+            className="btn rounded-pill px-3 d-flex align-items-center gap-2 text-white fw-bold text-decoration-none shadow-sm call-badge"
+            style={{ height: '42px', fontSize: '13px', background: 'linear-gradient(135deg, #0d6efd 0%, #0056b3 100%)' }}
           >
-            <Phone size={15} />
+            <Phone size={16} />
             <span className="d-none d-md-inline">{phone}</span>
           </a>
 
           {/* Cart Icon */}
           <Link 
             href="/cart" 
-            className="btn rounded-circle p-2 d-flex align-items-center justify-content-center position-relative text-white shadow-sm cart-btn"
+            className="btn rounded-circle d-flex align-items-center justify-content-center position-relative text-white shadow-sm cart-btn"
             style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)' }}
             aria-label="Cart"
           >
@@ -66,7 +86,7 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
           {/* Profile Icon */}
           <Link 
             href="/contact" 
-            className="btn rounded-circle p-2 d-flex align-items-center justify-content-center text-white shadow-sm profile-btn"
+            className="btn rounded-circle d-flex align-items-center justify-content-center text-white shadow-sm profile-btn"
             style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)' }}
             aria-label="Account"
           >
@@ -79,9 +99,6 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
 
       <style jsx>{`
         .app-header {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
           border-bottom: 2px solid #f1f5f9;
         }
         .call-badge, .cart-btn, .profile-btn {
@@ -90,6 +107,24 @@ export default function TopBar({ cartCount = 0, phone = '9876543210' }) {
         .call-badge:hover, .cart-btn:hover, .profile-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+        .search-container {
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search-container:focus-within {
+          border-color: #0d6efd !important;
+          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+        }
+        .search-input {
+          transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .fade-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .fade-out {
+          opacity: 0;
+          transform: translateY(-6px);
         }
       `}</style>
     </header>

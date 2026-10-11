@@ -1,8 +1,9 @@
 // src/app/products/[id]/page.js
 'use client';
+
 import { productsData } from '@/data/products';
 import { useParams, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import {
   ShieldCheck,
   Truck,
@@ -19,11 +20,12 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function ProductDetailPage() {
+function ProductDetailContent() {
   const params = useParams();
   const router = useRouter();
   
-  const product = productsData.find((p) => p.id === params.id) || productsData[0];
+  const productId = params?.id || '1';
+  const product = productsData.find((p) => p.id === productId) || productsData[0];
 
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -77,7 +79,7 @@ export default function ProductDetailPage() {
     <div className="bg-white min-vh-100 pb-5">
       <div className="container py-4">
 
-        {/* Fixed Back Button & Breadcrumbs */}
+        {/* Back Button & Breadcrumbs */}
         <div className="d-flex align-items-center gap-3 mb-3">
           <button 
             onClick={() => router.back()} 
@@ -95,10 +97,10 @@ export default function ProductDetailPage() {
           </nav>
         </div>
 
-        {/* ===== MAIN GRID ===== */}
+        {/* MAIN GRID */}
         <div className="row g-4 align-items-start">
 
-          {/* LEFT: THUMBNAILS + MAIN IMAGE */}
+          {/* LEFT: IMAGES */}
           <div className="col-lg-5">
             <div className="d-flex gap-3 sticky-top" style={{ top: '90px' }}>
               <div className="d-flex flex-column gap-2">
@@ -246,5 +248,13 @@ export default function ProductDetailPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function ProductDetailPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-5">Loading product details...</div>}>
+      <ProductDetailContent />
+    </Suspense>
   );
 }

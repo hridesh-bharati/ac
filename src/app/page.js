@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import HeroSection from '@/components/Home/HeroSection';
-import ServiceSection from '@/components/Home/ServiceSection';
+import ProductsPage from './products/page';
 
 export default function Home() {
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      <ServiceSection />
+      <ProductsPage />
     </div>
   );
 }

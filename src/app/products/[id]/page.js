@@ -1,38 +1,249 @@
+// src/app/products/[id]/page.js
 'use client';
 import { productsData } from '@/data/products';
-import { useParams } from 'next/navigation';
-import { ShieldCheck, Truck, RefreshCw } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import {
+  ShieldCheck,
+  Truck,
+  RefreshCw,
+  Star,
+  Minus,
+  Plus,
+  ShoppingCart,
+  ChevronLeft,
+  Heart,
+  Check,
+  MapPin,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const router = useRouter();
+  
   const product = productsData.find((p) => p.id === params.id) || productsData[0];
 
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
+  const [activeTab, setActiveTab] = useState('specs');
+  const [activeImage, setActiveImage] = useState(product.image);
+
+  useEffect(() => {
+    if (product?.image) {
+      setActiveImage(product.image);
+    }
+  }, [product]);
+
+  const discount = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : 0;
+
+  const related = productsData
+    .filter((p) => p.id !== product.id && p.category === product.category)
+    .slice(0, 4);
+
+  const handleAddToCart = () => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existing = cart.findIndex((item) => item.id === product.id);
+      if (existing >= 0) {
+        cart[existing].qty += qty;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          image: product.image,
+          qty,
+        });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    setTimeout(() => router.push('/cart'), 400);
+  };
+
   return (
-    <div className="container py-5">
-      <div className="row g-5 align-items-center">
-        <div className="col-md-6">
-          <div className="bg-white border p-5 rounded-4 text-center fs-1 display-1 shadow-sm">
-            {product.image}
-          </div>
-        </div>
-        <div className="col-md-6">
-          <span className="badge bg-primary bg-opacity-10 text-primary fw-bold px-3 py-1 rounded-pill mb-2">{product.brand}</span>
-          <h1 className="fw-bold display-6 mb-3">{product.name}</h1>
-          <h3 className="text-primary fw-bold mb-3">₹{product.price.toLocaleString()}</h3>
-          <p className="text-muted mb-4">{product.description}</p>
+    <div className="bg-white min-vh-100 pb-5">
+      <div className="container py-4">
+
+        {/* Fixed Back Button & Breadcrumbs */}
+        <div className="d-flex align-items-center gap-3 mb-3">
+          <button 
+            onClick={() => router.back()} 
+            className="btn btn-light border rounded-pill px-3 py-1.5 d-inline-flex align-items-center gap-1 shadow-sm fw-bold small text-dark"
+          >
+            <ChevronLeft size={16} /> Back
+          </button>
           
-          <div className="d-flex gap-3 mb-4">
-            <button onClick={() => alert("Added to cart successfully!")} className="btn btn-primary px-4 py-3 rounded-pill fw-bold shadow-sm flex-grow-1">
-              Add To Cart 🛒
-            </button>
+          <nav className="text-muted small mb-0">
+            <Link href="/" className="text-decoration-none text-muted">Home</Link>
+            <span className="mx-2">›</span>
+            <Link href="/products" className="text-decoration-none text-muted">Products</Link>
+            <span className="mx-2">›</span>
+            <span className="text-dark fw-semibold">{product.name}</span>
+          </nav>
+        </div>
+
+        {/* ===== MAIN GRID ===== */}
+        <div className="row g-4 align-items-start">
+
+          {/* LEFT: THUMBNAILS + MAIN IMAGE */}
+          <div className="col-lg-5">
+            <div className="d-flex gap-3 sticky-top" style={{ top: '90px' }}>
+              <div className="d-flex flex-column gap-2">
+                {[product.image, product.image, product.image, product.image].map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImage(img)}
+                    className={`position-relative rounded-2 border p-1 bg-white ${activeImage === img ? 'border-dark border-2 shadow-sm' : 'border-light'}`}
+                    style={{ width: '65px', height: '65px' }}
+                  >
+                    <Image src={img} alt="" fill className="object-fit-cover rounded-1" />
+                  </button>
+                ))}
+              </div>
+
+              <div className="position-relative bg-light rounded-4 overflow-hidden border w-100" style={{ height: '420px' }}>
+                <Image
+                  src={activeImage}
+                  alt={product.name}
+                  fill
+                  className="object-fit-cover"
+                  priority
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="border-top pt-4 text-muted small space-y-2">
-            <p className="d-flex align-items-center gap-2 mb-2"><Truck size={16} className="text-primary" /> Free Doorstep Delivery & Standard Installation</p>
-            <p className="d-flex align-items-center gap-2 mb-2"><ShieldCheck size={16} className="text-success" /> 1 Year Comprehensive & 5 Years Compressor Warranty</p>
-            <p className="d-flex align-items-center gap-2"><RefreshCw size={16} className="text-warning" /> 7 Days Replacement Policy</p>
+          {/* CENTER: INFO */}
+          <div className="col-lg-4">
+            <span className="badge bg-primary bg-opacity-10 text-primary fw-bold px-3 py-1 rounded-pill mb-2 text-uppercase" style={{ fontSize: '11px' }}>
+              {product.brand}
+            </span>
+
+            <h1 className="fw-bold fs-3 text-dark mb-2">{product.name}</h1>
+
+            <div className="d-flex align-items-center gap-2 mb-3">
+              <div className="d-flex gap-1 text-warning">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} fill={i < 4 ? '#f59e0b' : '#e4e4e7'} stroke="none" />
+                ))}
+              </div>
+              <span className="fw-bold small text-dark">4.8</span>
+              <span className="text-muted small">(312 reviews)</span>
+            </div>
+
+            <hr className="text-muted opacity-25 my-3" />
+
+            <div className="d-flex align-items-baseline gap-3 flex-wrap mb-1">
+              {discount > 0 && (
+                <span className="badge bg-danger px-2.5 py-1 fs-6">-{discount}%</span>
+              )}
+              <span className="fs-2 fw-bold text-dark">₹{product.price.toLocaleString()}</span>
+              {product.oldPrice && (
+                <span className="text-muted text-decoration-line-through small">
+                  M.R.P.: ₹{product.oldPrice.toLocaleString()}
+                </span>
+              )}
+            </div>
+            <p className="text-muted small mb-4">Inclusive of all taxes & standard doorstep delivery</p>
+
+            <div className="bg-light p-3 rounded-4 mb-4 border">
+              <h6 className="fw-bold text-uppercase text-dark mb-2" style={{ fontSize: '11px', letterSpacing: '0.5px' }}>Available Offers</h6>
+              <div className="d-flex flex-column gap-2 small text-muted">
+                <div className="d-flex gap-2">
+                  <span className="badge bg-white text-dark border px-2 py-0.5" style={{ fontSize: '10px' }}>Bank Offer</span>
+                  <span>10% instant discount on select credit & debit cards</span>
+                </div>
+                <div className="d-flex gap-2">
+                  <span className="badge bg-white text-dark border px-2 py-0.5" style={{ fontSize: '10px' }}>No Cost EMI</span>
+                  <span>Available on orders above ₹10,000 with zero interest</span>
+                </div>
+              </div>
+            </div>
+
+            <hr className="text-muted opacity-25 my-3" />
+
+            <div className="mb-4">
+              <h6 className="fw-bold text-uppercase text-dark mb-2" style={{ fontSize: '11px', letterSpacing: '0.5px' }}>Key Specifications</h6>
+              <div className="row g-2 small">
+                <div className="col-6 text-muted">Capacity: <span className="text-dark fw-semibold">1.5 Ton / Inverter</span></div>
+                <div className="col-6 text-muted">Star Rating: <span className="text-dark fw-semibold">5 Star Efficient</span></div>
+                <div className="col-6 text-muted">Refrigerant: <span className="text-dark fw-semibold">Eco-friendly R-32</span></div>
+                <div className="col-6 text-muted">Warranty: <span className="text-dark fw-semibold">1 Year Comprehensive</span></div>
+              </div>
+            </div>
+
+            <hr className="text-muted opacity-25 my-3" />
+
+            <div>
+              <h6 className="fw-bold text-uppercase text-dark mb-2" style={{ fontSize: '11px', letterSpacing: '0.5px' }}>Product Highlights</h6>
+              <ul className="list-unstyled d-flex flex-column gap-2 small text-muted mb-0">
+                <li className="d-flex align-items-center gap-2"><Check size={14} className="text-success" /> Copper condenser coil for better cooling and low maintenance</li>
+                <li className="d-flex align-items-center gap-2"><Check size={14} className="text-success" /> Stabilizer-free operation across voltage fluctuations</li>
+              </ul>
+            </div>
           </div>
+
+          {/* RIGHT: BUY BOX */}
+          <div className="col-lg-3">
+            <div className="border rounded-4 p-4 shadow-sm bg-white sticky-top" style={{ top: '90px' }}>
+              <div className="fs-3 fw-bold text-dark mb-3">
+                ₹{product.price.toLocaleString()}
+              </div>
+
+              <div className="d-flex align-items-center gap-2 text-muted small mb-3">
+                <MapPin size={15} className="text-primary" />
+                <span>Standard delivery within 24-48 hours</span>
+              </div>
+
+              <div className="d-flex align-items-center gap-2 mb-4">
+                <span className="bg-success rounded-circle" style={{ width: '8px', height: '8px' }}></span>
+                <span className="text-success fw-bold small">In Stock & Ready to Install</span>
+              </div>
+
+              <div className="mb-4">
+                <label className="fw-bold small text-dark d-block mb-2">Quantity</label>
+                <div className="d-inline-flex align-items-center border rounded-pill overflow-hidden bg-light">
+                  <button onClick={() => setQty(Math.max(1, qty - 1))} className="btn btn-sm border-0 px-3 py-1 shadow-none">
+                    <Minus size={14} />
+                  </button>
+                  <span className="px-3 fw-bold small text-dark">{qty}</span>
+                  <button onClick={() => setQty(qty + 1)} className="btn btn-sm border-0 px-3 py-1 shadow-none">
+                    <Plus size={14} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="d-grid gap-2 mb-3">
+                <button onClick={handleAddToCart} className="btn btn-outline-dark py-2.5 rounded-pill fw-bold small shadow-sm d-flex align-items-center justify-content-center gap-2">
+                  <ShoppingCart size={16} /> {added ? 'Added ✓' : 'Add to Cart'}
+                </button>
+                <button onClick={handleBuyNow} className="btn btn-dark py-2.5 rounded-pill fw-bold small shadow-sm">
+                  Buy Now
+                </button>
+              </div>
+
+              <div className="border-top pt-3 mt-3 d-flex flex-column gap-2 text-muted" style={{ fontSize: '11px' }}>
+                <div className="d-flex align-items-center gap-2"><Truck size={14} className="text-primary" /> Free Doorstep Delivery</div>
+                <div className="d-flex align-items-center gap-2"><ShieldCheck size={14} className="text-success" /> 1 Year Comprehensive Warranty</div>
+              </div>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
   );

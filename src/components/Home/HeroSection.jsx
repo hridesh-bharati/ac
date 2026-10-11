@@ -1,9 +1,13 @@
 'use client';
 import { Leaf, ShieldCheck, Truck, Wrench, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import HotPromotions from './HotPromotions';
+import FeaturesBar from './FutureBar';
+import ProductCatalog from './ProductCatalog';
 
 export default function HeroSection() {
   return (
+    <>
     <section 
       className="position-relative overflow-hidden py-5 py-lg-6 text-dark"
       style={{
@@ -86,5 +90,9 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
+    <HotPromotions />
+    <FeaturesBar />
+    <ProductCatalog />
+    </>
   );
 }
